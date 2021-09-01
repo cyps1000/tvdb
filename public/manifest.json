@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "TVDB",
+  "name": "Search your favorite TV Shows",
   "icons": [
     {
       "src": "favicon.ico",
