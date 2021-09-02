@@ -1,2 +1,2 @@
 export * from "./useSearch";
-export * from "./Context";
+export * from "./useSearch.types";

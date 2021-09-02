@@ -8,7 +8,7 @@ import { context, defaultValues, ProviderValues } from "./Context";
 /**
  * Imports interfaces
  */
-import { SearchResult } from "./useSearch.types";
+import { TVShow } from "./useTvShow.types";
 
 /**
  * Provides a top level wrapper with the context
@@ -16,7 +16,7 @@ import { SearchResult } from "./useSearch.types";
  * - This is the main provider
  * - It makes the object available to any child component that calls the hook.
  */
-export const SearchProvider: React.FC = (props) => {
+export const TVShowProvider: React.FC = (props) => {
   const { children } = props;
 
   /**
@@ -25,11 +25,9 @@ export const SearchProvider: React.FC = (props) => {
   const { Provider } = context;
 
   /**
-   * Handles the search results state
+   * Handles the Tv Show state
    */
-  const [searchResults, setSearchResults] = useState<SearchResult[]>(
-    defaultValues.searchResults
-  );
+  const [tvShow, setTvShow] = useState<TVShow>(defaultValues.tvShow);
 
   /**
    * Handles the loading state
@@ -37,15 +35,10 @@ export const SearchProvider: React.FC = (props) => {
   const [loading, setLoading] = useState(defaultValues.loading);
 
   /**
-   * Handles the search input state
-   */
-  const [searchInput, setSearchInput] = useState(defaultValues.searchInput);
-
-  /**
    * Handles updating the search results state
    */
-  const updateSearchResults = (results: SearchResult[]) => {
-    setSearchResults(results);
+  const updateTVShow = (show: TVShow) => {
+    setTvShow(show);
   };
 
   /**
@@ -56,23 +49,14 @@ export const SearchProvider: React.FC = (props) => {
   };
 
   /**
-   * Handles updating the search input state
-   */
-  const updateSearchInput = (value: string) => {
-    setSearchInput(value);
-  };
-
-  /**
    * Defines the provider value
    * These values will be available to any children component that calls the hook
    */
   const providerValue: ProviderValues = {
-    searchResults,
+    tvShow,
     loading,
-    searchInput,
     updateLoading,
-    updateSearchInput,
-    updateSearchResults,
+    updateTVShow,
   };
 
   return <Provider value={providerValue}>{children}</Provider>;

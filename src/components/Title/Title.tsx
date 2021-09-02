@@ -13,7 +13,7 @@ import { useStyles } from "./Title.styles";
 /**
  * Displays the component
  */
-export const Title: React.FC = () => {
+export const Title: React.FC = (pops) => {
   /**
    * Gets the component styles
    */

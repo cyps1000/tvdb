@@ -3,30 +3,37 @@ import { createContext } from "react";
 /**
  * Imports interfaces
  */
-import { SearchResult } from "./useSearch.types";
+import { TVShow } from "./useTvShow.types";
 
 /**
  * Defines the default values interface
  */
 export interface ProviderValues {
-  searchResults: SearchResult[];
+  tvShow: TVShow;
   loading: boolean;
-  searchInput: string;
   updateLoading: (loading: boolean) => void;
-  updateSearchInput: (value: string) => void;
-  updateSearchResults: (shows: SearchResult[]) => void;
+  updateTVShow: (show: TVShow) => void;
 }
 
 /**
  * Init the default values
  */
 export const defaultValues: ProviderValues = {
-  searchResults: [],
+  tvShow: {
+    id: 0,
+    name: "",
+    poster: "",
+    status: "",
+    airsTime: "",
+    airsDayOfWeek: [],
+    genre: [],
+    siteRating: 0,
+    overview: "",
+    seasons: [],
+  },
   loading: true,
-  searchInput: "",
   updateLoading: (loading: boolean) => {},
-  updateSearchInput: (value: string) => {},
-  updateSearchResults: (results: SearchResult[]) => {},
+  updateTVShow: (show: TVShow) => {},
 };
 
 /**

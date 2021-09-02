@@ -1,6 +1,3 @@
-/**
- * Imports interfaces
- */
 import { SearchResult } from "../../hooks";
 
 /**

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
  */
 import { SearchPage } from "../SearchPage";
 import { SearchResults } from "../SearchResults";
+import { TVShow } from "../TVShow";
 
 /**
  * Displays the component
@@ -21,7 +22,7 @@ export const Routes: React.FC = () => {
             <SearchResults />
           </Route>
           <Route exact path="/shows/:id">
-            Show Details
+            <TVShow />
           </Route>
           <Route path="*">
             <SearchPage />

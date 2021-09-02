@@ -77,7 +77,11 @@ export const TvShowItem: React.FC<TvShowItemProps> = (props) => {
               <Box className={classes.networkDetails}>
                 <Typography variant="h6" color="textSecondary">
                   Network:{" "}
-                  <strong>{result.network ? result.network : "N/A"}</strong>
+                  <strong>
+                    {result.network
+                      ? result.network
+                      : result.webChannel && result.webChannel}
+                  </strong>
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
                   First Aired:{" "}
