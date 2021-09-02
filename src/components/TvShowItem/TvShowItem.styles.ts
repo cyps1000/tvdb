@@ -30,14 +30,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: "100%",
     width: "170px",
     height: "auto",
-    maxHeight: "auto",
+    maxHeight: "250px",
     [theme.breakpoints.down("sm")]: {
       width: "200px",
     },
   },
   posterGrid: {
-    display: "flex",
-    justifyContent: "center",
+    [theme.breakpoints.down("xs")]: {
+      display: "flex",
+      justifyContent: "center",
+    },
   },
   contentGrid: {
     [theme.breakpoints.down("xs")]: {

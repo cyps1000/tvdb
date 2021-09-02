@@ -16,21 +16,14 @@ import { Paper, Grid, Typography, Box } from "@material-ui/core";
 import { useStyles } from "./TvShowItem.styles";
 
 /**
- * Imports interfaces
- */
-import { SearchResult } from "../../hooks";
-
-/**
  * Imports assets
  */
 import noImage from "../../assets/noImgPortrait.png";
 
 /**
- * Defines the props interface
+ * Imports interfaces
  */
-export interface TvShowItemProps {
-  result: SearchResult;
-}
+import { TvShowItemProps } from "./TvShowItem.types";
 
 /**
  * Displays the component

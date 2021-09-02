@@ -16,27 +16,20 @@ import { TvShowItem } from "../TvShowItem";
 import { useSearch } from "../../hooks";
 
 /**
- * Imports the component styles
- */
-//import { useStyles } from "./TvShowList.styles";
-
-/**
  * Displays the component
  */
 export const TvShowList: React.FC = () => {
   /**
-   * Gets the component styles
+   * Inits the useSearch hook
    */
-  //const classes = useStyles();
-
   const { searchResults } = useSearch();
 
-  return (
-    <Fragment>
-      {searchResults.length > 0 &&
-        searchResults.map((result) => (
-          <TvShowItem key={v4()} result={result} />
-        ))}
-    </Fragment>
-  );
+  /**
+   * Handles rendering the search results
+   */
+  const showSearchResults =
+    searchResults.length > 0 &&
+    searchResults.map((result) => <TvShowItem key={v4()} result={result} />);
+
+  return <Fragment>{showSearchResults}</Fragment>;
 };

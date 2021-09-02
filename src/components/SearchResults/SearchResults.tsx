@@ -30,9 +30,19 @@ export const SearchResults: React.FC = () => {
    */
   const classes = useStyles();
 
+  /**
+   * Inits the useSearch hook
+   */
   const { searchResults } = useSearch();
 
+  /**
+   * Handles rendering a Typography component based
+   * on the search results
+   */
   const matchResults = () => {
+    /**
+     * Gets the search index from session storage
+     */
     const match = window.sessionStorage.getItem("index");
 
     return searchResults.length > 0 ? (

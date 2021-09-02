@@ -1,7 +1,8 @@
+import { useHistory } from "react-router-dom";
+
 /**
  * External Imports
  */
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 /**
@@ -25,29 +26,9 @@ import { useSearch } from "../../hooks";
 import { useStyles } from "./SearchForm.styles";
 
 /**
- * Defines the props interface
+ * Imports interfaces
  */
-export interface SearchFormProps {
-  text?: string;
-}
-
-interface ResultResponse {
-  show: {
-    id: number;
-    name: string;
-    premiered: string;
-    network: {
-      name: string;
-    } | null;
-    webChannel: {
-      name: string;
-    } | null;
-    image: {
-      medium: string;
-    } | null;
-    summary: string | null;
-  };
-}
+import { SearchFormProps, ResultResponse } from "./SearchForm.types";
 
 /**
  * Displays the component
@@ -69,6 +50,9 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
   const { searchInput, updateSearchInput, updateSearchResults, updateLoading } =
     useSearch();
 
+  /**
+   * Handles searching for a show by name
+   */
   const searchShows = async () => {
     const { data } = await axios.get<ResultResponse[]>(
       `https://api.tvmaze.com/search/shows?q=${searchInput}`
@@ -94,13 +78,24 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
     }
   };
 
+  /**
+   * Handles the event source when the value is changed
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateSearchInput(e.target.value);
   };
 
+  /**
+   * Handles searching when the Enter key is pressed
+   */
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && searchInput.length > 1) {
       searchShows();
+
+      /**
+       * Handles setting the search index in the session storage
+       * for future ref
+       */
       window.sessionStorage.setItem("index", searchInput);
     }
   };
@@ -115,7 +110,6 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
       >
         <SearchIcon />
       </IconButton>
-
       <InputBase
         id="standard-secondary"
         color="primary"
