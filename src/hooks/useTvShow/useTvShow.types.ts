@@ -9,6 +9,8 @@ export interface TVShow {
   airsTime?: string;
   airsDayOfWeek?: string[];
   genre?: string[];
+  network?: string | null;
+  webChannel?: string | null;
   siteRating?: number;
   overview?: string | null;
   seasons?: Season[];

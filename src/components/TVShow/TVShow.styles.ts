@@ -18,8 +18,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   backButton: {
     display: "flex",
     alignSelf: "flex-start",
-    marginBottom: "1rem",
+    marginBottom: "2rem",
     backgroundColor: "#fff",
+    boxShadow: "1px 4px 13px #838383",
+    borderRadius: 5,
     "& a": {
       textDecoration: "none",
       color: "inherit",

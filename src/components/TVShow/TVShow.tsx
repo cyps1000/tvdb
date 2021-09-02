@@ -11,6 +11,7 @@ import { Grid, Button } from "@material-ui/core";
  * Imports components
  */
 import { TVShowHeader } from "../TVShowHeader";
+import { TVShowDetails } from "../TVShowDetails";
 
 /**
  * Imports hooks
@@ -74,6 +75,8 @@ export const TVShow: React.FC = () => {
         airsTime: data.schedule && data.schedule.time,
         airsDayOfWeek: data.schedule && data.schedule.days,
         genre: data.genres && data.genres,
+        network: data.network ? data.network.name : null,
+        webChannel: data.webChannel ? data.webChannel.name : null,
         siteRating: data.rating && data.rating.average,
         overview: data.summary && data.summary,
         seasons: [],
@@ -106,12 +109,14 @@ export const TVShow: React.FC = () => {
         <Button
           variant="outlined"
           color="primary"
+          size="large"
           className={classes.backButton}
           onClick={goBack}
         >
           Go Back
         </Button>
         <TVShowHeader show={tvShow} />
+        <TVShowDetails show={tvShow} />
       </Grid>
     </div>
   );

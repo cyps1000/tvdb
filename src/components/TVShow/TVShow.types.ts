@@ -21,6 +21,12 @@ export interface TVShowResponse {
     days: string[];
   };
   genres: string[];
+  network: {
+    name: string;
+  } | null;
+  webChannel: {
+    name: string;
+  } | null;
   rating: {
     average: number;
   };
