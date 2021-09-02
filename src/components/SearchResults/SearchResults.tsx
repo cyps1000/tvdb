@@ -14,7 +14,7 @@ import { Grid, Box, Typography } from "@material-ui/core";
 /**
  * Imports hooks
  */
-import { useTvShow } from "../../hooks";
+import { useSearch } from "../../hooks";
 
 /**
  * Imports the component styles
@@ -30,15 +30,15 @@ export const SearchResults: React.FC = () => {
    */
   const classes = useStyles();
 
-  const { tvShows } = useTvShow();
+  const { searchResults } = useSearch();
 
   const matchResults = () => {
     const match = window.sessionStorage.getItem("index");
 
-    return tvShows.length > 0 ? (
+    return searchResults.length > 0 ? (
       <Typography variant="h6" color="textSecondary" gutterBottom>
-        Found {tvShows.length} {tvShows.length === 1 ? "result" : "results"}{" "}
-        matching "{match}"{" "}
+        Found {searchResults.length}{" "}
+        {searchResults.length === 1 ? "result" : "results"} matching "{match}"{" "}
       </Typography>
     ) : (
       <Typography variant="h6" color="textSecondary" gutterBottom>

@@ -8,7 +8,7 @@ import { context } from "./Context";
 /**
  * Imports the provider
  */
-import { TvShowProvider } from "./Provider";
+import { SearchProvider } from "./Provider";
 
 /**
  * Defines the main hook
@@ -16,6 +16,6 @@ import { TvShowProvider } from "./Provider";
  * - Returns the context / object
  * - To be used inside components
  */
-const useTvShow = () => useContext(context);
+const useSearch = () => useContext(context);
 
-export { useTvShow, TvShowProvider };
+export { useSearch, SearchProvider };

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 /**
  * External Imports
  */
@@ -16,7 +18,7 @@ import { useStyles } from "./TvShowItem.styles";
 /**
  * Imports interfaces
  */
-import { TvShow } from "../../hooks";
+import { SearchResult } from "../../hooks";
 
 /**
  * Imports assets
@@ -27,14 +29,14 @@ import noImage from "../../assets/noImgPortrait.png";
  * Defines the props interface
  */
 export interface TvShowItemProps {
-  tvShow: TvShow;
+  result: SearchResult;
 }
 
 /**
  * Displays the component
  */
 export const TvShowItem: React.FC<TvShowItemProps> = (props) => {
-  const { tvShow } = props;
+  const { result } = props;
 
   /**
    * Gets the component styles
@@ -42,46 +44,59 @@ export const TvShowItem: React.FC<TvShowItemProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-      <Paper elevation={10} className={classes.TvShowItem}>
-        <Grid container spacing={1} direction="row">
-          <Grid item md={3} lg={3} xl={3} className={classes.posterGrid}>
-            <img
-              className={classes.poster}
-              alt={tvShow.show.name}
-              src={tvShow.show.image ? tvShow.show.image.original : noImage}
-            />
-          </Grid>
-          <Grid item md={9} lg={9} xl={9}>
-            <Typography variant="h4" gutterBottom>
-              {tvShow.show.name}
-            </Typography>
-            <Typography variant="h6" color="textSecondary" gutterBottom>
-              {ReactHtmlParser(
-                tvShow.show.summary
-                  ? tvShow.show.summary.substring(0, 120).concat("...")
-                  : "No description provided"
-              )}
-            </Typography>
-            <Box className={classes.networkDetails}>
-              <Typography variant="h6" color="textSecondary">
-                Network:{" "}
-                <strong>
-                  {tvShow.show.network
-                    ? tvShow.show.network.name
-                    : "On the net"}
-                </strong>
+    <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.root}>
+      <Link to={`/shows/${result.id}`}>
+        <Paper elevation={10} className={classes.TvShowItem}>
+          <Grid container spacing={2} direction="row">
+            <Grid
+              item
+              xs={12}
+              sm={3}
+              md={3}
+              lg={3}
+              xl={3}
+              className={classes.posterGrid}
+            >
+              <img
+                className={classes.poster}
+                alt={result.name}
+                src={result.poster ? result.poster : noImage}
+              />
+            </Grid>
+            <Grid
+              item
+              sm={9}
+              md={9}
+              lg={9}
+              xl={9}
+              className={classes.contentGrid}
+            >
+              <Typography variant="h4" gutterBottom>
+                {result.name}
               </Typography>
-              <Typography variant="h6" color="textSecondary">
-                First Aired:{" "}
-                <strong>
-                  {tvShow.show.premiered ? tvShow.show.premiered : "N/A"}
-                </strong>
+              <Typography variant="h6" color="textSecondary" gutterBottom>
+                {ReactHtmlParser(
+                  result.overview
+                    ? result.overview.substring(0, 120).concat("...")
+                    : "No description provided"
+                )}
               </Typography>
-            </Box>
+              <Box className={classes.networkDetails}>
+                <Typography variant="h6" color="textSecondary">
+                  Network:{" "}
+                  <strong>{result.network ? result.network : "N/A"}</strong>
+                </Typography>
+                <Typography variant="h6" color="textSecondary">
+                  First Aired:{" "}
+                  <strong>
+                    {result.firstAired ? result.firstAired : "N/A"}
+                  </strong>
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      </Link>
     </Grid>
   );
 };

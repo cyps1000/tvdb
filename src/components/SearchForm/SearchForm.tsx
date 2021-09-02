@@ -7,7 +7,7 @@ import axios from "axios";
 /**
  * Imports Material UI components
  */
-import { Paper, InputBase, Icon } from "@material-ui/core";
+import { Paper, InputBase, IconButton } from "@material-ui/core";
 
 /**
  * Imports Material UI Icons
@@ -17,7 +17,7 @@ import SearchIcon from "@material-ui/icons/Search";
 /**
  * Imports hooks
  */
-import { useTvShow } from "../../hooks";
+import { useSearch } from "../../hooks";
 
 /**
  * Imports the component styles
@@ -29,6 +29,24 @@ import { useStyles } from "./SearchForm.styles";
  */
 export interface SearchFormProps {
   text?: string;
+}
+
+interface ResultResponse {
+  show: {
+    id: number;
+    name: string;
+    premiered: string;
+    network: {
+      name: string;
+    } | null;
+    webChannel: {
+      name: string;
+    } | null;
+    image: {
+      medium: string;
+    } | null;
+    summary: string | null;
+  };
 }
 
 /**
@@ -48,17 +66,29 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
   /**
    * Inits the tv show hook
    */
-  const { searchInput, updateSearchInput, updateTvShows, updateLoading } =
-    useTvShow();
+  const { searchInput, updateSearchInput, updateSearchResults, updateLoading } =
+    useSearch();
 
   const searchShows = async () => {
-    const { data } = await axios.get(
+    const { data } = await axios.get<ResultResponse[]>(
       `https://api.tvmaze.com/search/shows?q=${searchInput}`
     );
 
     if (data) {
+      const searchResults = data.map((item: ResultResponse) => {
+        return {
+          id: item.show.id,
+          name: item.show.name,
+          firstAired: item.show.premiered,
+          network: item.show.network ? item.show.network.name : null,
+          webChannel: item.show.webChannel ? item.show.webChannel.name : null,
+          overview: item.show.summary ? item.show.summary : null,
+          poster: item.show.image ? item.show.image.medium : null,
+        };
+      });
+
+      updateSearchResults(searchResults);
       updateLoading(false);
-      updateTvShows(data);
 
       return push(`/search/`);
     }
@@ -77,9 +107,14 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
 
   return (
     <Paper elevation={10} className={classes.SearchForm}>
-      <Icon color="primary" className={classes.iconButton}>
+      <IconButton
+        color="primary"
+        size="small"
+        className={classes.iconButton}
+        onClick={searchShows}
+      >
         <SearchIcon />
-      </Icon>
+      </IconButton>
 
       <InputBase
         id="standard-secondary"

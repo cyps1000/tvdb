@@ -13,7 +13,7 @@ import { TvShowItem } from "../TvShowItem";
 /**
  * Imports hooks
  */
-import { useTvShow } from "../../hooks";
+import { useSearch } from "../../hooks";
 
 /**
  * Imports the component styles
@@ -29,12 +29,14 @@ export const TvShowList: React.FC = () => {
    */
   //const classes = useStyles();
 
-  const { tvShows } = useTvShow();
+  const { searchResults } = useSearch();
 
   return (
     <Fragment>
-      {tvShows.length > 0 &&
-        tvShows.map((tvShow) => <TvShowItem key={v4()} tvShow={tvShow} />)}
+      {searchResults.length > 0 &&
+        searchResults.map((result) => (
+          <TvShowItem key={v4()} result={result} />
+        ))}
     </Fragment>
   );
 };

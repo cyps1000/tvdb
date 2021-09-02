@@ -1,7 +1,7 @@
 /**
  * Imports components
  */
-import { TvShowProvider } from "../../hooks";
+import { SearchProvider } from "../../hooks";
 
 /**
  * Displays the component
@@ -9,5 +9,5 @@ import { TvShowProvider } from "../../hooks";
 export const Providers: React.FC = (props) => {
   const { children } = props;
 
-  return <TvShowProvider>{children}</TvShowProvider>;
+  return <SearchProvider>{children}</SearchProvider>;
 };
