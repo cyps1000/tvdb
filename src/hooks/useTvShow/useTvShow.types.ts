@@ -14,25 +14,13 @@ export interface TVShow {
   siteRating?: number;
   overview?: string | null;
   seasons?: Season[];
-}
-
-/**
- * Defines the Episode interface
- */
-export interface Episode {
-  name: string | null;
-  season: number;
-  number: number;
-  firstAired: string | null;
-  image: string | null;
-  overview: string | null;
-  runtime: number;
+  seasonsCount: number;
 }
 
 /**
  * Defines the Season interface
  */
 export interface Season {
-  number: number;
-  episodes: Episode[];
+  id: number;
+  number: number | null;
 }

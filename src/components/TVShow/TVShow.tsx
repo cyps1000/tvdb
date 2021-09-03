@@ -12,6 +12,7 @@ import { Grid, Button } from "@material-ui/core";
  */
 import { TVShowHeader } from "../TVShowHeader";
 import { TVShowDetails } from "../TVShowDetails";
+import { Season } from "../Season";
 
 /**
  * Imports hooks
@@ -27,7 +28,7 @@ import { useStyles } from "./TVShow.styles";
  * Imports interfaces
  */
 import { ParamTypes, TVShowResponse } from "./TVShow.types";
-import { TVShow as ITVShow } from "../../hooks";
+import { TVShow as ITVShow, Season as ISeason } from "../../hooks";
 
 /**
  * Displays the component
@@ -63,10 +64,17 @@ export const TVShow: React.FC = () => {
    */
   const getTvShow = async (id: number) => {
     const { data } = await axios.get<TVShowResponse>(
-      `https://api.tvmaze.com/shows/${id}?embed=episodes`
+      `https://api.tvmaze.com/shows/${id}?embed=seasons`
     );
 
     if (data) {
+      const seasons: ISeason[] = data._embedded.seasons.map((season) => {
+        return {
+          id: season.id,
+          number: season.number && season.number,
+        };
+      });
+
       const tvShowResult: ITVShow = {
         id: data.id,
         name: data.name,
@@ -79,7 +87,8 @@ export const TVShow: React.FC = () => {
         webChannel: data.webChannel ? data.webChannel.name : null,
         siteRating: data.rating && data.rating.average,
         overview: data.summary && data.summary,
-        seasons: [],
+        seasonsCount: seasons && seasons.length,
+        seasons,
       };
 
       updateTVShow(tvShowResult);
@@ -96,6 +105,7 @@ export const TVShow: React.FC = () => {
     <div className={classes.TVShow}>
       <Grid
         container
+        item
         justifyContent="center"
         alignItems="center"
         direction="column"
@@ -117,6 +127,7 @@ export const TVShow: React.FC = () => {
         </Button>
         <TVShowHeader show={tvShow} />
         <TVShowDetails show={tvShow} />
+        <Season />
       </Grid>
     </div>
   );

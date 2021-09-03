@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
  * External Imports
  */
 import ReactHtmlParser from "react-html-parser";
+import { format, parseISO } from "date-fns";
 
 /**
  * Imports Material UI components
@@ -40,7 +41,7 @@ export const TvShowItem: React.FC<TvShowItemProps> = (props) => {
     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.root}>
       <Link to={`/shows/${result.id}`}>
         <Paper elevation={10} className={classes.TvShowItem}>
-          <Grid container spacing={2} direction="row">
+          <Grid container item spacing={2} direction="row">
             <Grid
               item
               xs={12}
@@ -86,7 +87,9 @@ export const TvShowItem: React.FC<TvShowItemProps> = (props) => {
                 <Typography variant="h6" color="textSecondary">
                   First Aired:{" "}
                   <strong>
-                    {result.firstAired ? result.firstAired : "N/A"}
+                    {result.firstAired
+                      ? format(parseISO(result.firstAired), "PPPP")
+                      : "N/A"}
                   </strong>
                 </Typography>
               </Box>

@@ -30,6 +30,7 @@ export const defaultValues: ProviderValues = {
     siteRating: 0,
     overview: "",
     seasons: [],
+    seasonsCount: 0,
   },
   loading: true,
   updateLoading: (loading: boolean) => {},

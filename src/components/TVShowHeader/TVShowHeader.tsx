@@ -59,7 +59,7 @@ export const TVShowHeader: React.FC<TVShowHeaderProps> = (props) => {
 
   return (
     <Paper elevation={10} className={classes.TVShowHeader}>
-      <Grid container spacing={3} direction="row">
+      <Grid container item spacing={3} direction="row">
         <Grid
           item
           xs={12}
@@ -90,14 +90,14 @@ export const TVShowHeader: React.FC<TVShowHeaderProps> = (props) => {
           <Box className={classes.genres}>{showGenres}</Box>
           <Box className={classes.showRating}>
             <Rating
-              size={isMobile ? "medium" : "large"}
+              size="large"
               value={show.siteRating}
               precision={0.1}
-              max={10}
+              max={isMobile ? 1 : 10}
               readOnly
             />
             <Typography variant="h6">
-              {show.siteRating && !isMobile && show.siteRating + " / 10"}
+              {show.siteRating && show.siteRating + " / 10"}
             </Typography>
           </Box>
           <Typography variant="h5" color="textSecondary">

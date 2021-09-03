@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   TvShowItem: {
     borderRadius: 15,
-    padding: "1rem 2rem",
+    padding: "2rem 2rem",
     width: "-webkit-fill-available",
     display: "flex",
     alignItems: "center",

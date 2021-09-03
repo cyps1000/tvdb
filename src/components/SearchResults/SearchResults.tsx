@@ -63,6 +63,7 @@ export const SearchResults: React.FC = () => {
       <div className={classes.SearchResults}>
         <Grid
           container
+          item
           justifyContent="center"
           spacing={2}
           xs={11}

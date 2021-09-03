@@ -80,7 +80,7 @@ export const TVShowDetails: React.FC<TVShowDetailsProps> = (props) => {
               Status: <strong>{show.status ? show.status : "N/A"}</strong>
             </Typography>
             <Typography variant="h5" color="textSecondary">
-              Seasons: <strong>To do</strong>
+              Seasons: <strong>{show.seasons && show.seasons.length}</strong>
             </Typography>
           </Box>
         </Grid>

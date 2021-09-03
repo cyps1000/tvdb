@@ -27,6 +27,7 @@ export const SearchPage: React.FC = () => {
     <div className={classes.SearchPage}>
       <Grid
         container
+        item
         justifyContent="center"
         alignItems="center"
         direction="column"

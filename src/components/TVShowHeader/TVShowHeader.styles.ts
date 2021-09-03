@@ -45,9 +45,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "row",
     "& h6": {
       paddingLeft: "1rem",
-      [theme.breakpoints.down("xs")]: {
-        fontSize: "1rem",
-      },
     },
   },
   genres: {
