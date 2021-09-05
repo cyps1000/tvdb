@@ -21,6 +21,7 @@ export const Routes: React.FC = () => {
   return (
     <Router>
       <ScrollToTop>
+        <Modal />
         <Route path="/">
           <Switch>
             <Route exact path="/">
@@ -31,7 +32,6 @@ export const Routes: React.FC = () => {
             </Route>
             <Route exact path="/shows/:id">
               <TVShow />
-              <Modal />
             </Route>
             <Route path="*">
               <Redirect to="/" />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * External Imports
@@ -18,7 +18,7 @@ import SearchIcon from "@material-ui/icons/Search";
 /**
  * Imports hooks
  */
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useSearch } from "../../hooks";
 
 /**
@@ -43,22 +43,27 @@ export const SearchForm: React.FC = () => {
   /**
    * Init the history hook
    */
-  const { push } = useHistory();
+  const { push, location } = useHistory();
+
+  /**
+   * Inits the useParams hook
+   */
+  const { name } = useParams<{ name: string }>();
 
   /**
    * Inits the tv show hook
    */
-  const { updateSearchResults } = useSearch();
+  const { updateSearchResults, searchResults } = useSearch();
 
   /**
    * Inits the search state
    */
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState<string>(name ? name : "");
 
   /**
    * Handles searching for a show by name
    */
-  const searchShows = async () => {
+  const searchShows = async (input: string) => {
     const { data } = await axios.get<ResultResponse[]>(
       `https://api.tvmaze.com/search/shows?q=${input}`
     );
@@ -94,13 +99,7 @@ export const SearchForm: React.FC = () => {
    */
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && input.length > 2) {
-      searchShows();
-
-      /**
-       * Handles setting the search index in the session storage
-       * for future ref
-       */
-      // window.localStorage.setItem("index", searchInput);
+      searchShows(input);
     }
   };
 
@@ -110,15 +109,16 @@ export const SearchForm: React.FC = () => {
   const onSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     if (input.length > 2) {
       e.preventDefault();
-      searchShows();
-
-      /**
-       * Handles setting the search index in the session storage
-       * for future ref
-       */
-      // window.localStorage.setItem("index", searchInput);
+      searchShows(input);
     }
   };
+
+  useEffect(() => {
+    if (searchResults.length < 1 && location.pathname === `/search/${name}`) {
+      searchShows(name);
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Paper elevation={10} className={classes.SearchForm}>
