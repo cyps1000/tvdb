@@ -8,7 +8,7 @@ import { context, defaultValues, ProviderValues } from "./Context";
 /**
  * Imports interfaces
  */
-import { SearchResult } from "./useSearch.types";
+import { ModalData } from "./useModal.types";
 
 /**
  * Provides a top level wrapper with the context
@@ -16,7 +16,7 @@ import { SearchResult } from "./useSearch.types";
  * - This is the main provider
  * - It makes the object available to any child component that calls the hook.
  */
-export const SearchProvider: React.FC = (props) => {
+export const ModalProvider: React.FC = (props) => {
   const { children } = props;
 
   /**
@@ -25,40 +25,37 @@ export const SearchProvider: React.FC = (props) => {
   const { Provider } = context;
 
   /**
-   * Handles the search results state
+   * Handles the modal data state
    */
-  const [searchResults, setSearchResults] = useState<SearchResult[]>(
-    defaultValues.searchResults
-  );
+  const [content, setContent] = useState<ModalData>(defaultValues.content);
 
   /**
-   * Handles the loading state
+   * Handles the modal state
+   * open / close
    */
-  const [loading, setLoading] = useState(defaultValues.loading);
+  const [open, setOpen] = useState<boolean>(defaultValues.open);
 
   /**
-   * Handles updating the search results state
+   * Handles updating the modal data
    */
-  const updateSearchResults = (results: SearchResult[]) => {
-    setSearchResults(results);
+  const updateModalContent = (content: ModalData) => {
+    setContent(content);
   };
 
   /**
-   * Handles updating the loading state
+   * Handles toggling the modal
    */
-  const updateLoading = (loading: boolean) => {
-    setLoading(loading);
-  };
+  const toggleModal = () => setOpen(!open);
 
   /**
    * Defines the provider value
    * These values will be available to any children component that calls the hook
    */
   const providerValue: ProviderValues = {
-    searchResults,
-    loading,
-    updateLoading,
-    updateSearchResults,
+    content,
+    open,
+    toggleModal,
+    updateModalContent,
   };
 
   return <Provider value={providerValue}>{children}</Provider>;

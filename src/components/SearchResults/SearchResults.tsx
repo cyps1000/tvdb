@@ -14,12 +14,20 @@ import { Grid, Box, Typography } from "@material-ui/core";
 /**
  * Imports hooks
  */
+import { useParams } from "react-router-dom";
 import { useSearch } from "../../hooks";
 
 /**
  * Imports the component styles
  */
 import { useStyles } from "./SearchResults.styles";
+
+/**
+ * Defines the params types interface
+ */
+export interface ParamTypes {
+  name: string;
+}
 
 /**
  * Displays the component
@@ -36,19 +44,19 @@ export const SearchResults: React.FC = () => {
   const { searchResults } = useSearch();
 
   /**
+   * Inits the useParams hook
+   */
+  const { name } = useParams<ParamTypes>();
+
+  /**
    * Handles rendering a Typography component based
    * on the search results
    */
   const matchResults = () => {
-    /**
-     * Gets the search index from session storage
-     */
-    const match = window.sessionStorage.getItem("index");
-
     return searchResults.length > 0 ? (
       <Typography variant="h6" color="textSecondary" gutterBottom>
         Found {searchResults.length}{" "}
-        {searchResults.length === 1 ? "result" : "results"} matching "{match}"{" "}
+        {searchResults.length === 1 ? "result" : "results"} matching "{name}"{" "}
       </Typography>
     ) : (
       <Typography variant="h6" color="textSecondary" gutterBottom>

@@ -10,6 +10,11 @@ import { format, parseISO } from "date-fns";
 import { Paper, Typography, Grid } from "@material-ui/core";
 
 /**
+ * Imports hooks
+ */
+import { useModal } from "../../hooks";
+
+/**
  * Imports the component styles
  */
 import { useStyles } from "./Episode.styles";
@@ -42,8 +47,26 @@ export const Episode: React.FC<EpisodeProps> = (props) => {
    */
   const classes = useStyles();
 
+  const { updateModalContent, toggleModal } = useModal();
+
+  const handleClick = () => {
+    const content = {
+      title: `Episode ${episode.number}: ${episode.name} - Season ${episode.season}`,
+      image: episode.image ? episode.image : noImgBanner,
+      overview: episode.overview ? episode.overview : "No description provided",
+      runtime: episode.runtime ? episode.runtime + " minutes" : "N/A",
+    };
+
+    updateModalContent(content);
+    toggleModal();
+  };
+
   return (
-    <Paper elevation={3} className={classes.Episode}>
+    <Paper
+      elevation={3}
+      className={classes.Episode}
+      onClick={(e) => handleClick()}
+    >
       <Grid container spacing={2}>
         <Grid
           item
@@ -62,12 +85,17 @@ export const Episode: React.FC<EpisodeProps> = (props) => {
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
           <Typography variant="h5" color="textSecondary" gutterBottom>
-            Episode {episode.number}: <strong>{episode.name}</strong>
+            Episode {episode.number ? episode.number : "Special"}:{" "}
+            <strong>{episode.name}</strong>
           </Typography>
           <Typography variant="subtitle1" color="textSecondary" gutterBottom>
             <strong>
               {episode.firstAired
-                ? `Aired on ${format(parseISO(episode.firstAired), "PPPP")}`
+                ? `${
+                    episode.firstAired < format(new Date(), "yyyy-MM-dd")
+                      ? "Aired"
+                      : "Airs"
+                  } on ${format(parseISO(episode.firstAired), "PPPP")}`
                 : null}
             </strong>
           </Typography>
@@ -76,10 +104,12 @@ export const Episode: React.FC<EpisodeProps> = (props) => {
               episode.overview ? episode.overview : "No description provided"
             )}
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          {/* <Typography variant="h6" color="textSecondary" gutterBottom>
             Average runtime:{" "}
-            <strong>{episode.runtime ? episode.runtime : "N/A"}</strong> minutes
-          </Typography>
+            <strong>
+              {episode.runtime ? episode.runtime + " minutes" : "N/A"}
+            </strong>
+          </Typography> */}
         </Grid>
       </Grid>
     </Paper>

@@ -1,11 +1,6 @@
 import { Fragment } from "react";
 
 /**
- * External imports
- */
-import { v4 } from "uuid";
-
-/**
  * Imports components
  */
 import { TvShowItem } from "../TvShowItem";
@@ -27,9 +22,9 @@ export const TvShowList: React.FC = () => {
   /**
    * Handles rendering the search results
    */
-  const showSearchResults =
-    searchResults.length > 0 &&
-    searchResults.map((result) => <TvShowItem key={v4()} result={result} />);
+  const showSearchResults = searchResults.map((result) => (
+    <TvShowItem key={result.id} result={result} />
+  ));
 
   return <Fragment>{showSearchResults}</Fragment>;
 };

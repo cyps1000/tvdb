@@ -3,26 +3,31 @@ import { createContext } from "react";
 /**
  * Imports interfaces
  */
-import { SearchResult } from "./useSearch.types";
+import { ModalData } from "./useModal.types";
 
 /**
  * Defines the default values interface
  */
 export interface ProviderValues {
-  searchResults: SearchResult[];
-  loading: boolean;
-  updateLoading: (loading: boolean) => void;
-  updateSearchResults: (shows: SearchResult[]) => void;
+  content: ModalData;
+  open: boolean;
+  toggleModal: () => void;
+  updateModalContent: (content: ModalData) => void;
 }
 
 /**
  * Init the default values
  */
 export const defaultValues: ProviderValues = {
-  searchResults: [],
-  loading: true,
-  updateLoading: (loading: boolean) => {},
-  updateSearchResults: (results: SearchResult[]) => {},
+  content: {
+    title: "",
+    image: "",
+    overview: "",
+    runtime: "",
+  },
+  open: false,
+  toggleModal: () => {},
+  updateModalContent: (content: ModalData) => {},
 };
 
 /**

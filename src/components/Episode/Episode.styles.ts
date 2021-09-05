@@ -11,6 +11,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   Episode: {
     margin: "0.5rem 0",
     padding: "1rem 1rem",
+    transition: "0.3s ease-in-out",
+    "&:hover": {
+      transform: "scale(1.02)",
+      cursor: "pointer",
+    },
   },
   banner: {
     maxWidth: "100%",

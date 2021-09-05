@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 /**
  * External Imports
@@ -18,6 +18,7 @@ import SearchIcon from "@material-ui/icons/Search";
 /**
  * Imports hooks
  */
+import { useHistory } from "react-router-dom";
 import { useSearch } from "../../hooks";
 
 /**
@@ -28,12 +29,12 @@ import { useStyles } from "./SearchForm.styles";
 /**
  * Imports interfaces
  */
-import { SearchFormProps, ResultResponse } from "./SearchForm.types";
+import { ResultResponse } from "./SearchForm.types";
 
 /**
  * Displays the component
  */
-export const SearchForm: React.FC<SearchFormProps> = () => {
+export const SearchForm: React.FC = () => {
   /**
    * Gets the component styles
    */
@@ -47,15 +48,19 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
   /**
    * Inits the tv show hook
    */
-  const { searchInput, updateSearchInput, updateSearchResults, updateLoading } =
-    useSearch();
+  const { updateSearchResults } = useSearch();
+
+  /**
+   * Inits the search state
+   */
+  const [input, setInput] = useState<string>("");
 
   /**
    * Handles searching for a show by name
    */
   const searchShows = async () => {
     const { data } = await axios.get<ResultResponse[]>(
-      `https://api.tvmaze.com/search/shows?q=${searchInput}`
+      `https://api.tvmaze.com/search/shows?q=${input}`
     );
 
     if (data) {
@@ -72,9 +77,8 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
       });
 
       updateSearchResults(searchResults);
-      updateLoading(false);
 
-      return push(`/search/`);
+      return push(`/search/${input}`);
     }
   };
 
@@ -82,21 +86,37 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
    * Handles the event source when the value is changed
    */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateSearchInput(e.target.value);
+    setInput(e.target.value);
   };
 
   /**
    * Handles searching when the Enter key is pressed
    */
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && searchInput.length > 1) {
+    if (event.key === "Enter" && input.length > 2) {
       searchShows();
 
       /**
        * Handles setting the search index in the session storage
        * for future ref
        */
-      window.sessionStorage.setItem("index", searchInput);
+      // window.localStorage.setItem("index", searchInput);
+    }
+  };
+
+  /**
+   * Handles searching for shows
+   */
+  const onSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    if (input.length > 2) {
+      e.preventDefault();
+      searchShows();
+
+      /**
+       * Handles setting the search index in the session storage
+       * for future ref
+       */
+      // window.localStorage.setItem("index", searchInput);
     }
   };
 
@@ -106,15 +126,15 @@ export const SearchForm: React.FC<SearchFormProps> = () => {
         color="primary"
         size="small"
         className={classes.iconButton}
-        onClick={searchShows}
+        onClick={onSubmit}
       >
         <SearchIcon />
       </IconButton>
       <InputBase
-        id="standard-secondary"
-        color="primary"
+        id="search-shows"
         fullWidth
-        value={searchInput}
+        autoComplete="off"
+        value={input}
         onKeyDown={handleKeyDown}
         onChange={handleChange}
       />

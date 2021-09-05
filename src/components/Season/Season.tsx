@@ -7,6 +7,7 @@ import axios from "axios";
  */
 import { Episode } from "../Episode";
 import { SeasonMenu } from "../SeasonMenu";
+import { Spinner } from "../Spinner";
 
 /**
  * Imports Material UI components
@@ -53,12 +54,19 @@ export const Season: React.FC = () => {
   const [episodes, setEpisodes] = useState<IEpisode[]>([]);
 
   /**
+   * Inits the episode loading state
+   */
+  const [episodeLoading, setEpisodeLoading] = useState(true);
+
+  /**
    * Handles fetching the TV Show episodes
    */
   const getEpisodes = async (id: number) => {
     const { data } = await axios.get<EpisodeResponse[]>(
       `https://api.tvmaze.com/seasons/${id}/episodes`
     );
+
+    setEpisodeLoading(true);
 
     if (data) {
       const newData: IEpisode[] = data.map((episode) => {
@@ -75,6 +83,7 @@ export const Season: React.FC = () => {
       });
 
       setEpisodes(newData);
+      setEpisodeLoading(false);
     }
   };
 
@@ -110,6 +119,8 @@ export const Season: React.FC = () => {
     if (tvShow.seasons && seasonId) {
       getEpisodes(seasonId);
     }
+
+    return () => setEpisodes([]);
     // eslint-disable-next-line
   }, [seasonId]);
 
@@ -120,13 +131,17 @@ export const Season: React.FC = () => {
         handleChange={handleChange}
         seasonId={seasonId}
       />
-      <Paper elevation={10} className={classes.episodesContainer}>
-        {renderSeasonTitle}
-        <hr className={classes.divider} />
-        {episodes.map((episode) => (
-          <Episode key={episode.id} episode={episode} />
-        ))}
-      </Paper>
+      {episodeLoading ? (
+        <Spinner />
+      ) : (
+        <Paper elevation={10} className={classes.episodesContainer}>
+          {renderSeasonTitle}
+          <hr className={classes.divider} />
+          {episodes.map((episode) => (
+            <Episode key={episode.id} episode={episode} />
+          ))}
+        </Paper>
+      )}
     </Fragment>
   );
 };

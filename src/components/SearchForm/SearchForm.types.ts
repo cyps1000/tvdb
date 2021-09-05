@@ -1,11 +1,4 @@
 /**
- * Defines the props interface
- */
-export interface SearchFormProps {
-  text?: string;
-}
-
-/**
  * Defines the response data interface
  */
 export interface ResultResponse {

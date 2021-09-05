@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     transition: "0.3s ease-in-out",
-
     "&:hover": {
       transform: "scale(1.02)",
       cursor: "pointer",
@@ -42,18 +41,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   contentGrid: {
+    display: "flex",
+    flexDirection: "column",
     [theme.breakpoints.down("xs")]: {
       textAlign: "left",
     },
   },
   networkDetails: {
     display: "flex",
-    flexDirection: "row",
     justifyContent: "space-between",
     [theme.breakpoints.down("xs")]: {
       flexDirection: "column",
     },
-    paddingTop: "2rem",
+    marginTop: "auto",
   },
 }));
 

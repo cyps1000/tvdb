@@ -12,6 +12,11 @@ import { format, parseISO } from "date-fns";
 import { Paper, Grid, Typography, Box } from "@material-ui/core";
 
 /**
+ * Imports utils
+ */
+import { truncateString } from "../../utils";
+
+/**
  * Imports the component styles
  */
 import { useStyles } from "./TvShowItem.styles";
@@ -71,7 +76,7 @@ export const TvShowItem: React.FC<TvShowItemProps> = (props) => {
               <Typography variant="h6" color="textSecondary" gutterBottom>
                 {ReactHtmlParser(
                   result.overview
-                    ? result.overview.substring(0, 120).concat("...")
+                    ? truncateString(result.overview, 120)
                     : "No description provided"
                 )}
               </Typography>

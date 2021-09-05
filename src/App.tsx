@@ -10,11 +10,7 @@ import CssBaseLine from "@material-ui/core/CssBaseline";
  */
 import { Providers } from "./components/Providers";
 import { Routes } from "./components/Routes";
-
-/**
- * Imports component specific css
- */
-import "./App.css";
+import { ScrollToTopButton } from "./components/ScrollToTopButton";
 
 /**
  * Displays the component
@@ -25,6 +21,7 @@ export const App: React.FC = () => {
       <CssBaseLine />
       <Providers>
         <Routes />
+        <ScrollToTopButton />
       </Providers>
     </Fragment>
   );

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, Fragment } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 
@@ -10,14 +10,16 @@ import { Grid, Button } from "@material-ui/core";
 /**
  * Imports components
  */
+import { Title } from "../Title";
 import { TVShowHeader } from "../TVShowHeader";
 import { TVShowDetails } from "../TVShowDetails";
 import { Season } from "../Season";
+import { Spinner } from "../Spinner";
 
 /**
  * Imports hooks
  */
-import { useTvShow } from "../../hooks";
+import { useTvShow, tvShowDefaultValues } from "../../hooks";
 
 /**
  * Imports the component styles
@@ -52,7 +54,7 @@ export const TVShow: React.FC = () => {
   /**
    * Inits the useTvShow hook
    */
-  const { tvShow, updateTVShow, updateLoading } = useTvShow();
+  const { tvShow, loading, updateTVShow, updateLoading } = useTvShow();
 
   /**
    * Handles converting the string into a number
@@ -66,6 +68,8 @@ export const TVShow: React.FC = () => {
     const { data } = await axios.get<TVShowResponse>(
       `https://api.tvmaze.com/shows/${id}?embed=seasons`
     );
+
+    updateLoading(true);
 
     if (data) {
       const seasons: ISeason[] = data._embedded.seasons.map((season) => {
@@ -98,6 +102,8 @@ export const TVShow: React.FC = () => {
 
   useEffect(() => {
     getTvShow(tvShowId);
+
+    return () => updateTVShow(tvShowDefaultValues.tvShow);
     // eslint-disable-next-line
   }, [tvShowId]);
 
@@ -116,6 +122,7 @@ export const TVShow: React.FC = () => {
         lg={8}
         xl={7}
       >
+        <Title showDescription={false} />
         <Button
           variant="outlined"
           color="primary"
@@ -125,9 +132,15 @@ export const TVShow: React.FC = () => {
         >
           Go Back
         </Button>
-        <TVShowHeader show={tvShow} />
-        <TVShowDetails show={tvShow} />
-        <Season />
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Fragment>
+            <TVShowHeader show={tvShow} />
+            <TVShowDetails show={tvShow} />
+            <Season />
+          </Fragment>
+        )}
       </Grid>
     </div>
   );
