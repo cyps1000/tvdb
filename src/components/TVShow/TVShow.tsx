@@ -1,5 +1,8 @@
 import { useEffect, Fragment } from "react";
-import { useParams, useHistory } from "react-router-dom";
+
+/**
+ * External imports
+ */
 import axios from "axios";
 
 /**
@@ -19,6 +22,7 @@ import { Spinner } from "../Spinner";
 /**
  * Imports hooks
  */
+import { useParams, useHistory } from "react-router-dom";
 import { useTvShow, tvShowDefaultValues } from "../../hooks";
 
 /**
@@ -69,8 +73,6 @@ export const TVShow: React.FC = () => {
       `https://api.tvmaze.com/shows/${id}?embed=seasons`
     );
 
-    updateLoading(true);
-
     if (data) {
       const seasons: ISeason[] = data._embedded.seasons.map((season) => {
         return {
@@ -103,7 +105,10 @@ export const TVShow: React.FC = () => {
   useEffect(() => {
     getTvShow(tvShowId);
 
-    return () => updateTVShow(tvShowDefaultValues.tvShow);
+    return () => {
+      updateTVShow(tvShowDefaultValues.tvShow);
+      updateLoading(true);
+    };
     // eslint-disable-next-line
   }, [tvShowId]);
 

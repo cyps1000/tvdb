@@ -27,14 +27,7 @@ import noImgBanner from "../../assets/noImgBanner.png";
 /**
  * Imports interfaces
  */
-import { Episode as IEpisode } from "../Season/Season.types";
-
-/**
- * Defines the props interface
- */
-export interface EpisodeProps {
-  episode: IEpisode;
-}
+import { EpisodeProps } from "./Episode.types";
 
 /**
  * Displays the component
@@ -47,8 +40,14 @@ export const Episode: React.FC<EpisodeProps> = (props) => {
    */
   const classes = useStyles();
 
+  /**
+   * Inits the useModal hook
+   */
   const { updateModalContent, toggleModal } = useModal();
 
+  /**
+   * Handles toggling the modal when an episode is clicked
+   */
   const handleClick = () => {
     const content = {
       title: `Episode ${episode.number}: ${episode.name} - Season ${episode.season}`,
@@ -60,6 +59,23 @@ export const Episode: React.FC<EpisodeProps> = (props) => {
     updateModalContent(content);
     toggleModal();
   };
+
+  /**
+   * Handles showing the episode description
+   */
+  const showDescription = ReactHtmlParser(
+    episode.overview ? episode.overview : "No description provided"
+  );
+
+  /**
+   * Handles showing when the episode first aired
+   * or when it will air
+   */
+  const showFirstAired = episode.firstAired
+    ? `${
+        episode.firstAired < format(new Date(), "yyyy-MM-dd") ? "Aired" : "Airs"
+      } on ${format(parseISO(episode.firstAired), "PPPP")}`
+    : null;
 
   return (
     <Paper
@@ -89,27 +105,11 @@ export const Episode: React.FC<EpisodeProps> = (props) => {
             <strong>{episode.name}</strong>
           </Typography>
           <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-            <strong>
-              {episode.firstAired
-                ? `${
-                    episode.firstAired < format(new Date(), "yyyy-MM-dd")
-                      ? "Aired"
-                      : "Airs"
-                  } on ${format(parseISO(episode.firstAired), "PPPP")}`
-                : null}
-            </strong>
+            <strong>{showFirstAired}</strong>
           </Typography>
           <Typography variant="h6" color="textSecondary" gutterBottom>
-            {ReactHtmlParser(
-              episode.overview ? episode.overview : "No description provided"
-            )}
+            {showDescription}
           </Typography>
-          {/* <Typography variant="h6" color="textSecondary" gutterBottom>
-            Average runtime:{" "}
-            <strong>
-              {episode.runtime ? episode.runtime + " minutes" : "N/A"}
-            </strong>
-          </Typography> */}
         </Grid>
       </Grid>
     </Paper>

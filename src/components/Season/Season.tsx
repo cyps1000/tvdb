@@ -1,5 +1,8 @@
 import { Fragment, useEffect, useState } from "react";
 
+/**
+ * External Imports
+ */
 import axios from "axios";
 
 /**
@@ -66,8 +69,6 @@ export const Season: React.FC = () => {
       `https://api.tvmaze.com/seasons/${id}/episodes`
     );
 
-    setEpisodeLoading(true);
-
     if (data) {
       const newData: IEpisode[] = data.map((episode) => {
         return {
@@ -107,6 +108,13 @@ export const Season: React.FC = () => {
     );
 
   /**
+   * Handles rendering the episodes
+   */
+  const renderEpisodes = episodes.map((episode) => (
+    <Episode key={episode.id} episode={episode} />
+  ));
+
+  /**
    * Handles updating the season menu state
    */
   useEffect(() => {
@@ -115,33 +123,38 @@ export const Season: React.FC = () => {
     }
   }, [tvShow.seasons]);
 
+  /**
+   * Handles fetching episodes only if the shows has seasons
+   * and the seasonId exists
+   */
   useEffect(() => {
     if (tvShow.seasons && seasonId) {
+      setEpisodeLoading(true);
       getEpisodes(seasonId);
     }
 
+    /**
+     * Clean up after the component unmounts
+     */
     return () => setEpisodes([]);
     // eslint-disable-next-line
   }, [seasonId]);
 
-  return (
+  return episodeLoading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <SeasonMenu
         show={tvShow}
         handleChange={handleChange}
         seasonId={seasonId}
       />
-      {episodeLoading ? (
-        <Spinner />
-      ) : (
-        <Paper elevation={10} className={classes.episodesContainer}>
-          {renderSeasonTitle}
-          <hr className={classes.divider} />
-          {episodes.map((episode) => (
-            <Episode key={episode.id} episode={episode} />
-          ))}
-        </Paper>
-      )}
+
+      <Paper elevation={10} className={classes.episodesContainer}>
+        {renderSeasonTitle}
+        <hr className={classes.divider} />
+        {renderEpisodes}
+      </Paper>
     </Fragment>
   );
 };

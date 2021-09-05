@@ -53,7 +53,7 @@ export const SearchForm: React.FC = () => {
   /**
    * Inits the tv show hook
    */
-  const { updateSearchResults, searchResults } = useSearch();
+  const { updateSearchResults, searchResults, updateLoading } = useSearch();
 
   /**
    * Inits the search state
@@ -82,6 +82,7 @@ export const SearchForm: React.FC = () => {
       });
 
       updateSearchResults(searchResults);
+      updateLoading(false);
 
       return push(`/search/${input}`);
     }

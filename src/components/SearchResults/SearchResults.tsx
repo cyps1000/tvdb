@@ -5,6 +5,7 @@ import { Fragment } from "react";
  */
 import { SearchPage } from "../SearchPage";
 import { TvShowList } from "../TvShowList";
+import { Spinner } from "../Spinner";
 
 /**
  * Imports Material UI components
@@ -23,11 +24,9 @@ import { useSearch } from "../../hooks";
 import { useStyles } from "./SearchResults.styles";
 
 /**
- * Defines the params types interface
+ * Imports interfaces
  */
-export interface ParamTypes {
-  name: string;
-}
+import { ParamTypes } from "./SearchResults.types";
 
 /**
  * Displays the component
@@ -41,7 +40,7 @@ export const SearchResults: React.FC = () => {
   /**
    * Inits the useSearch hook
    */
-  const { searchResults } = useSearch();
+  const { searchResults, loading } = useSearch();
 
   /**
    * Inits the useParams hook
@@ -80,9 +79,15 @@ export const SearchResults: React.FC = () => {
           lg={8}
           xl={7}
         >
-          {matchResults()}
-          <Box className={classes.Divider} />
-          <TvShowList />
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Fragment>
+              {matchResults()}
+              <Box className={classes.Divider} />
+              <TvShowList />
+            </Fragment>
+          )}
         </Grid>
       </div>
     </Fragment>

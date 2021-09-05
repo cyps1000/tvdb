@@ -1,7 +1,7 @@
 /**
  * Imports Material UI Components
  */
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { CircularProgress } from "@material-ui/core";
 
 /**
  * Imports the component styles
