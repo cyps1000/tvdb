@@ -53,6 +53,22 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginBottom: "1rem",
     },
   },
+  zoomIcon: {
+    position: "absolute",
+    color: theme.palette.common.white,
+    zIndex: 10,
+  },
+  posterContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "&:hover": {
+      cursor: "pointer",
+      "& img": {
+        filter: "blur(3px)",
+      },
+    },
+  },
 }));
 
 export { useStyles };
