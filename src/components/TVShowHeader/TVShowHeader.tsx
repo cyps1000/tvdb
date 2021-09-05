@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 /**
  * External imports
  */
@@ -5,11 +7,21 @@ import { v4 } from "uuid";
 import ReactHtmlParser from "react-html-parser";
 
 /**
+ * Imports components
+ */
+import { ImageModal } from "../ImageModal";
+
+/**
  * Imports Material UI components
  */
 import { useMediaQuery, useTheme } from "@material-ui/core";
 import { Grid, Paper, Typography, Box, Chip } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
+
+/**
+ * Imports Material UI icons
+ */
+import ZoomInOutlinedIcon from "@material-ui/icons/ZoomInOutlined";
 
 /**
  * Imports the component styles
@@ -48,6 +60,21 @@ export const TVShowHeader: React.FC<TVShowHeaderProps> = (props) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
   /**
+   * Inits the modal state
+   */
+  const [open, setOpen] = useState<boolean>(false);
+
+  /**
+   * Inits the icons visibility state
+   */
+  const [visible, setVisible] = useState<boolean>(false);
+
+  /**
+   * Handles opening / closing the image modal
+   */
+  const toggleImageModal = () => setOpen(!open);
+
+  /**
    * Handles displaying tv show genres
    */
   const showGenres =
@@ -69,11 +96,24 @@ export const TVShowHeader: React.FC<TVShowHeaderProps> = (props) => {
           xl={4}
           className={classes.posterGrid}
         >
-          <img
-            className={classes.poster}
-            alt={show.name}
-            src={show.poster ? show.poster : noImage}
-          />
+          <Box
+            className={classes.posterContainer}
+            onMouseEnter={() => setVisible(true)}
+            onMouseLeave={() => setVisible(false)}
+            onClick={toggleImageModal}
+          >
+            {visible && (
+              <ZoomInOutlinedIcon
+                fontSize="large"
+                className={classes.zoomIcon}
+              />
+            )}
+            <img
+              className={classes.poster}
+              alt={show.name}
+              src={show.poster ? show.poster : noImage}
+            />
+          </Box>
         </Grid>
         <Grid
           item
@@ -107,6 +147,11 @@ export const TVShowHeader: React.FC<TVShowHeaderProps> = (props) => {
           </Typography>
         </Grid>
       </Grid>
+      <ImageModal
+        open={open}
+        toggleImageModal={toggleImageModal}
+        image={show.poster ? show.poster : noImage}
+      />
     </Paper>
   );
 };
